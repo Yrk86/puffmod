@@ -1,0 +1,16 @@
+[
+{
+  "modid": "puff",
+  "name": "Puff",
+  "description": "Framework modulaire expert V0.1",
+  "version": "0.1",
+  "mcversion": "1.9.4",
+  "url": "https://vproject.top",
+  "updateUrl": "",
+  "authorList": ["Arno", "Antigravity"],
+  "credits": "Expert Modding Community",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

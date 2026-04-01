@@ -1,0 +1,97 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+
+        // Dépôt officiel SpongePowered (nécessaire pour `mixingradle`)
+        maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
+    }
+    dependencies {
+        // ForgeGradle compatible Minecraft 1.9.4 (MDK officiel)
+        classpath "net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT"
+
+        // Plugin pour permettre la compilation/packaging des mixins
+        classpath "org.spongepowered:mixingradle:0.6-SNAPSHOT"
+    }
+}
+
+apply plugin: "net.minecraftforge.gradle.forge"
+apply plugin: "org.spongepowered.mixin"
+apply plugin: "java"
+
+version = "0.1"
+group = "com.puff"
+archivesBaseName = "puff"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+minecraft {
+    // Forge 1.9.4
+    version = "1.9.4-12.17.0.2317-1.9.4"
+    // Mappings recommandés par le MDK 1.9.4
+    mappings = "snapshot_20160518"
+
+    // Dossier où Forge place les logs + fichiers de lancement
+    runDir = "run"
+}
+
+// Configuration spécifique pour lancer avec Mixin en mode dev
+runClient {
+    if (project.hasProperty("appArgs")) {
+        args eval(project.appArgs)
+    }
+    // On ajoute explicitement la tweak class de Mixin pour qu'il soit chargé au démarrage
+    args "--tweakClass", "org.spongepowered.asm.launch.MixinTweaker"
+    jvmArgs "-Dmixin.config=puff.mixins.json"
+}
+
+repositories {
+    jcenter()
+    maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
+}
+
+dependencies {
+    // Les annotations et classes de Mixin nécessaires à la compilation.
+    // On utilise 0.7.11-SNAPSHOT pour éviter les conflits Guava sur 1.9.4.
+    compile ("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
+        exclude module: 'guava'
+        exclude module: 'commons-io'
+        exclude module: 'gson'
+    }
+    compile "org.ow2.asm:asm-debug-all:5.2"
+}
+
+// Génération du refmap pendant le build
+mixin {
+    add sourceSets.main, "puff.refmap.json"
+}
+
+processResources {
+    // Reproduit la logique du MDK Forge 1.9.4:
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version': project.version, 'mcversion': project.minecraft.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+jar {
+    manifest {
+        attributes (
+            "MixinConfigs": "puff.mixins.json",
+            "tweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+            "TweakOrder": 0,
+            "ForceLoadAsMod": true
+        )
+    }
+}

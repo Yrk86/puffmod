@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.7.0",
+  "package": "com.puff.mixins",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "puff.refmap.json",
+  "mixins": [],
+  "client": [
+    "MixinEntityPlayerSP",
+    "MixinBlock",
+    "MixinNetworkManager",
+    "MixinEntity",
+    "MixinEntityRenderer",
+    "MixinPlayerControllerMP"
+  ]
+}
