@@ -1,0 +1,36 @@
+{
+  "targets": [
+    {
+      "name": "blur0"
+    },
+    {
+      "name": "blur1"
+    }
+  ],
+  "passes": [
+    {
+      "name": "horizontal",
+      "intarget": "minecraft:main",
+      "outtarget": "blur0",
+      "auxtargets": [
+        {
+          "name": "DiffuseSampler",
+          "id": 0
+        }
+      ],
+      "program": "menu_blur"
+    },
+    {
+      "name": "vertical",
+      "intarget": "blur0",
+      "outtarget": "minecraft:main",
+      "auxtargets": [
+        {
+          "name": "DiffuseSampler",
+          "id": 1
+        }
+      ],
+      "program": "menu_blur"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "vertex": "shaders/program/menu/menu_blur.vert",
+  "fragment": "shaders/program/menu/menu_blur.frag",
+  "samplers": [
+    "DiffuseSampler"
+  ]
+}

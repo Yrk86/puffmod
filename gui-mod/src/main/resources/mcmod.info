@@ -1,0 +1,16 @@
+[
+{
+  "modid": "puffmodv1",
+  "name": "PuffMod V1",
+  "description": "Port of PuffMod V1 packaged for Forge 1.9.4 with a keybind to open the GUI.",
+  "version": "0.1.0",
+  "mcversion": "1.9.4",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["nullpointerexceptionkek"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
